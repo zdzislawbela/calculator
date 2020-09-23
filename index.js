@@ -38,8 +38,8 @@ const countingValue = (pressedKey) => {
     console.log("----- User typed: " + pressedKey);
 
     const newValue = pressedKey;
-    const previousValue = document.querySelector('#displayValue').innerHTML;
-    const previousValueArray = Array.from(document.querySelector('#displayValue').innerHTML);
+    const previousValue = document.querySelector('#displayRow').innerHTML;
+    const previousValueArray = Array.from(document.querySelector('#displayRow').innerHTML);
     const lastCharPreviousValue = previousValueArray[previousValueArray.length - 1];
 
     console.log("");
@@ -123,7 +123,7 @@ const updateDisplay = (value) => {
     if (value.length > 15) {
         return updateConsole("I can't handle more sorry");
     } 
-    document.querySelector('#displayValue').innerHTML = value;
+    document.querySelector('#displayRow').innerHTML = value;
 }
 const updateConsole = (value) => {
     console.log("co jest" + value)
