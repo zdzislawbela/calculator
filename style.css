@@ -27,7 +27,7 @@ html, body{
     justify-content: space-between;
     background-color: rgba(255, 255, 255, 0.541);
     color: black;
-    padding: 2em 0.5em 0em 0em;
+    padding: 2em 0.5em 0em 0.5em;
     flex: 1;
 }
 #displayValue {
@@ -58,4 +58,29 @@ html, body{
     flex: 1 1 80px;
     border-style: solid;
     border-color: black;
+}
+.mouseover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(125, 230, 99, 0.726);
+    color: black;
+    padding: 0.5em;
+    flex: 1 1 80px;
+    border-style: solid;
+    border-color: black;
+}
+
+.mousedown {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(125, 230, 99);
+    color: black;
+    padding: 0.5em;
+    flex: 1 1 80px;
+    border-style: solid;
+    border-color: rgb(0, 0, 0);
 }
