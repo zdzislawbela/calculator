@@ -26,7 +26,7 @@ const addKeyListiners = () => {
 }
 
 const setKeyClassInterval = () => {
-    const keys = document.querySelectorAll('.key');
+    const keys = document.getElementById('keyPanel').childNodes;
     keys.forEach((key) => {
         key.classList = "key"
     });
