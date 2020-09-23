@@ -32,8 +32,9 @@ const addKeyListiners = () => {
 }
 
 const countingValue = (pressedKey) => {
-    console.log("----- Starting countingValue -----")
-    console.log("----- User typed: " + pressedKey)
+    updateConsole('');
+    console.log("----- Starting countingValue -----");
+    console.log("----- User typed: " + pressedKey);
 
     const newValue = pressedKey;
     const previousValue = document.querySelector('#displayValue').innerHTML;
@@ -46,7 +47,7 @@ const countingValue = (pressedKey) => {
     console.log("----- previousValue: " + previousValue);
     console.log("----- previousValueArray: " + previousValueArray);
     console.log("----- lastCharPreviousValue: " + lastCharPreviousValue);
-    console.log("");
+    console.log("previousValueArray[0] " + previousValueArray[0]);
 
     //OK handle CE
     if (pressedKey == 'CE') {
@@ -54,30 +55,54 @@ const countingValue = (pressedKey) => {
     }
     // handle C delete whole newValue, save previousValue in memory
     if (pressedKey == 'C') {
-        return console.log('no idea');
+        return updateConsole('missing implementation of "C"');
     }
     //OK handle del
     if (pressedKey == 'del') {
+        if ( previousValue == '0' | previousValue.length == 1) {
+            return updateDisplay('0');
+        } 
         return updateDisplay(previousValue.slice(0, previousValue.length-1));
+    }
+    if (pressedKey == '+') {
+        return updateConsole('missing implementation of "+"');
+    }
+    if (pressedKey == '-') {
+        return updateConsole('missing implementation of "-"');
+    }
+    if (pressedKey == '/') {
+        return updateConsole('missing implementation of "/"');
+    }
+    if (pressedKey == 'x') {
+        return updateConsole('missing implementation of "x"');
+    }
+    if (pressedKey == '=') {
+        return updateConsole('missing implementation of "="');
     }
     //handle +/-
     if ( pressedKey == "+/-") {
-        if (previousValue == '0') {
-            const minus = '-'
-            return updateDisplay(minus);
-        } else {
-            return console.log("pressed minus inside ")
+/*         if (previousValue == '0') {
+            return updateDisplay('-0');
+        }  
+        if (previousValue == '-0') {
+            return updateDisplay('0');
+        } */
+        if (previousValueArray[0] == '-') {
+            return updateDisplay(previousValue.slice(1,previousValue.length));
         }
-
+        if (previousValueArray[0] == '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9'){
+            return updateDisplay('-' + previousValue);
+        }
+        return updateConsole("not implemented")  
     }
 
     //handle comma
     if ( pressedKey == ',') {        
         if ((lastCharPreviousValue) == ',') {
-            return console.log("comma alreade at the end");
+            return updateConsole("comma alreade at the end");
         }
         if (previousValue.includes(",")) {
-            return console.log("comma alreade inside");
+            return updateConsole("comma already inside");
         }
         console.log("Comma Added")
         return updateDisplay( previousValue + newValue );
@@ -86,10 +111,8 @@ const countingValue = (pressedKey) => {
     //handle numeric key
     if ( pressedKey == '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9') {
         if ( previousValue == '0' ) {
-            console.log("hej1");
             return updateDisplay(newValue); 
         } 
-        console.log("hej3");
         return updateDisplay( previousValue + newValue );
     }
 
@@ -106,8 +129,10 @@ const countingValue = (pressedKey) => {
 
 
 const updateDisplay = (value) => {
-    console.log("----- Starting updateDisplay -----")
     document.querySelector('#displayValue').innerHTML = value;
+}
+const updateConsole = (value) => {
+    document.querySelector('#console').innerHTML = value;
 }
 
 
