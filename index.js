@@ -42,7 +42,6 @@ const countingValue = (pressedKey) => {
     const previousValueArray = Array.from(document.querySelector('#displayValue').innerHTML);
     const lastCharPreviousValue = previousValueArray[previousValueArray.length - 1];
 
-
     console.log("");
     console.log("----- newValue: " + newValue);
     console.log("----- previousValue: " + previousValue);
@@ -52,32 +51,44 @@ const countingValue = (pressedKey) => {
 
 
     if ( pressedKey == 'CE' ) {
+        document.querySelector('#sign').innerHTML = ""
         return updateDisplay('0');
     }
     if ( pressedKey == 'C' ) {
+        document.querySelector('#sign').innerHTML = ""
         return updateConsole('missing implementation of "C"');
     }
     if ( pressedKey == 'del' ) {
+        document.querySelector('#sign').innerHTML = ""
         if ( previousValue == '0' | previousValue.length == 1 ) {
             return updateDisplay('0');
         } 
         return updateDisplay( previousValue.slice(0, previousValue.length-1) );
     }
+
+
     if ( pressedKey == '+' ) {
+        document.querySelector('#sign').innerHTML = "+"
         return updateConsole('missing implementation of "+"');
     }
     if ( pressedKey == '-' ) {
+        document.querySelector('#sign').innerHTML = "-"
         return updateConsole('missing implementation of "-"');
     }
     if ( pressedKey == '/' ) {
+        document.querySelector('#sign').innerHTML = "/"
         return updateConsole('missing implementation of "/"');
     }
     if ( pressedKey == 'x' ) {
+        document.querySelector('#sign').innerHTML = "x"
         return updateConsole('missing implementation of "x"');
     }
     if ( pressedKey == '=' ) {
+        document.querySelector('#sign').innerHTML = ""
         return updateConsole('missing implementation of "="');
     }
+
+    
     if ( pressedKey == "+/-" ) {
         if (previousValueArray[0] == '-') {
             return updateDisplay(previousValue.slice(1,previousValue.length));
@@ -89,12 +100,11 @@ const countingValue = (pressedKey) => {
     }
     if ( pressedKey == ',' ) {        
         if ( lastCharPreviousValue == ',' ) {
-            return updateConsole("comma already inside");
+            return updateConsole("");
         }
         if ( previousValue.includes(",") ) {
-            return updateConsole("comma already inside");
+            return updateConsole("");
         }
-        console.log("Comma Added")
         return updateDisplay( previousValue + newValue );
         
     }
@@ -110,9 +120,13 @@ const countingValue = (pressedKey) => {
 }
 
 const updateDisplay = (value) => {
+    if (value.length > 15) {
+        return updateConsole("I can't handle more sorry");
+    } 
     document.querySelector('#displayValue').innerHTML = value;
 }
 const updateConsole = (value) => {
+    console.log("co jest" + value)
     document.querySelector('#console').innerHTML = value;
 }
 

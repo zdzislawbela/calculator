@@ -21,6 +21,9 @@ html, body{
     align-items: stretch;
     width:  340px;
 }
+#console {
+    background-color: rgba(172, 28, 28, 0.603);
+}
 #display {
     display: flex;
     flex-direction: column;
@@ -35,13 +38,19 @@ html, body{
     display: flex;
     justify-content: space-between;
 }
-#console {
-    background-color: rgba(172, 28, 28, 0.103);
-}
+
 #displayValue {
     display: flex;
     justify-content: flex-end;
     padding: 0.5em;
+    background-color: rgba(255, 255, 255, 0.726);
+    color: black;
+}
+#sign {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 0.5em;
+    padding-bottom: 0.5em;
     background-color: rgba(255, 255, 255, 0.726);
     color: black;
 }
