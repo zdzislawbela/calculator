@@ -39,14 +39,14 @@ html, body{
     justify-content: space-between;
 }
 
-#displayRow {
+.displayRow {
     display: flex;
     justify-content: flex-end;
     padding: 0.5em;
     background-color: rgba(255, 255, 255, 0.726);
     color: black;
 }
-#sign {
+.displaySign {
     display: flex;
     justify-content: flex-end;
     padding-right: 0.5em;
@@ -64,7 +64,7 @@ html, body{
     padding: 0.5em;
     flex: 4;
 }
-.key {
+.key, .mathKey {
     display: flex;
     flex-direction: column;
     justify-content: center;
