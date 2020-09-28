@@ -52,33 +52,60 @@ const addMathKeyListiners = () => {
 }
 
 const handleMathKey = (pressedKey) => {
-    const newDisplayRow = document.createElement('div');
-    newDisplayRow.setAttribute('class', 'displayRow');
-    const newDisplaySign = document.createElement('div');
-    newDisplaySign.setAttribute('class', 'displaySign');
-    newDisplaySign.innerHTML = pressedKey;
+
+    const addNewRow = () => {
+        const newDisplayRow = document.createElement('div');
+        newDisplayRow.setAttribute('class', 'displayRow');
+        const newDisplaySign = document.createElement('div');
+        newDisplaySign.setAttribute('class', 'displaySign');
+        newDisplaySign.innerHTML = pressedKey;
+        document.querySelector('#display').appendChild(newDisplaySign);
+
+        const row = document.querySelectorAll('.displaySign');
+        const lastSignRow = row[row.length-1];
+        lastSignRow.innerHTML = pressedKey;
+
+
+
+
+
+
+        document.querySelector('#display').appendChild(newDisplayRow);
+    }
+
 
     if ( pressedKey == '+' ) {
-        document.querySelector('#display').appendChild(newDisplaySign);
-        document.querySelector('.displaySign').innerHTML = "+";
-        document.querySelector('#display').appendChild(newDisplayRow);
-        
-        return updeConsole('missing implementation of "+"');
+        addNewRow();
+        return updateConsole('missing implementation of "+"');
     }
     if ( pressedKey == '-' ) {
-        document.querySelector('.displaySign').innerHTML = "-"
+        addNewRow();
         return updateConsole('missing implementation of "-"');
     }
     if ( pressedKey == '/' ) {
-        document.querySelector('.displaySign').innerHTML = "/"
+        addNewRow();
         return updateConsole('missing implementation of "/"');
     }
     if ( pressedKey == 'x' ) {
-        document.querySelector('.displaySign').innerHTML = "x"
+        addNewRow();
         return updateConsole('missing implementation of "x"');
     }
     if ( pressedKey == '=' ) {
-        document.querySelector('.displaySign').innerHTML = ""
+        addNewRow();
+        const displayEntries = document.getElementById('display').querySelectorAll('div');
+        console.log("hejka")
+        console.log(displayEntries);
+        const countingArray = [];
+        displayEntries.forEach((entry) => {
+            console.log(entry.textContent);
+
+            countingArray.push(entry.textContent);
+
+
+        })
+        console.log('ZAJEB PO PETLI');
+        console.log(countingArray);
+
         return updateConsole('missing implementation of "="');
     }
 }
@@ -106,15 +133,12 @@ const countingValue = (pressedKey) => {
 
 
     if ( pressedKey == 'CE' ) {
-        document.querySelector('.displaySign').innerHTML = ""
         return updateDisplay('0');
     }
     if ( pressedKey == 'C' ) {
-        document.querySelector('.displaySign').innerHTML = ""
         return updateConsole('missing implementation of "C"');
     }
     if ( pressedKey == 'del' ) {
-        document.querySelector('.displaySign').innerHTML = ""
         if ( previousValue == '0' | previousValue.length == 1 ) {
             return updateDisplay('0');
         } 
@@ -125,6 +149,7 @@ const countingValue = (pressedKey) => {
         if (previousValueArray[0] == '-') {
             return updateDisplay(previousValue.slice(1,previousValue.length));
         }
+        // array includes()
         if ( previousValueArray[0] == '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' ) {
             return updateDisplay('-' + previousValue);
         }
