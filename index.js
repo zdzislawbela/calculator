@@ -27,7 +27,6 @@ const addKeyListiners = () => {
 
 const addMathKeyListiners = () => {
     const keys = document.querySelectorAll('.mathKey');
-    console.log(keys)
     keys.forEach((key) => {
         key.addEventListener('mouseover', () => {
             key.classList = "mouseover"
@@ -91,7 +90,6 @@ const handleMathKey = (pressedKey) => {
         const displayEntries = document.getElementById('display').querySelectorAll('div');
         let countingArray = [];
         displayEntries.forEach((entry) => {
-            console.log(entry.textContent);
 
             countingArray.push(entry.textContent);
 
