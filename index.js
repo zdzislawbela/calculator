@@ -27,7 +27,6 @@ const addKeyListiners = () => {
 
 const addMathKeyListiners = () => {
     const keys = document.querySelectorAll('.mathKey');
-    console.log(keys)
     keys.forEach((key) => {
         key.addEventListener('mouseover', () => {
             key.classList = "mouseover"
@@ -53,141 +52,142 @@ const addMathKeyListiners = () => {
 
 const handleMathKey = (pressedKey) => {
 
-    const addNewRow = () => {
+    const addNewRow = (sign) => {
         const newDisplayRow = document.createElement('div');
         newDisplayRow.setAttribute('class', 'displayRow');
         const newDisplaySign = document.createElement('div');
         newDisplaySign.setAttribute('class', 'displaySign');
-        newDisplaySign.innerHTML = pressedKey;
+        newDisplaySign.innerHTML = sign;
         document.querySelector('#display').appendChild(newDisplaySign);
 
         const row = document.querySelectorAll('.displaySign');
-        const lastSignRow = row[row.length-1];
-        lastSignRow.innerHTML = pressedKey;
-
-
-
-
+        const lastSignRow = row[row.length - 1];
+        lastSignRow.innerHTML = sign;
 
 
         document.querySelector('#display').appendChild(newDisplayRow);
     }
 
 
-    if ( pressedKey == '+' ) {
-        addNewRow();
+    if (pressedKey == '+') {
+        addNewRow(pressedKey);
         return updateConsole('missing implementation of "+"');
     }
-    if ( pressedKey == '-' ) {
-        addNewRow();
+    if (pressedKey == '-') {
+        addNewRow(pressedKey);
         return updateConsole('missing implementation of "-"');
     }
-    if ( pressedKey == '/' ) {
-        addNewRow();
+    if (pressedKey == '/') {
+        addNewRow(pressedKey);
         return updateConsole('missing implementation of "/"');
     }
-    if ( pressedKey == 'x' ) {
-        addNewRow();
+    if (pressedKey == 'x') {
+        addNewRow(pressedKey);
         return updateConsole('missing implementation of "x"');
     }
-    if ( pressedKey == '=' ) {
-        addNewRow();
+    if (pressedKey == '=') {
+        addNewRow(pressedKey);
         const displayEntries = document.getElementById('display').querySelectorAll('div');
-        console.log("hejka")
-        console.log(displayEntries);
-        const countingArray = [];
+        let countingArray = [];
         displayEntries.forEach((entry) => {
-            console.log(entry.textContent);
 
             countingArray.push(entry.textContent);
 
-
         })
-        console.log('ZAJEB PO PETLI');
-        console.log(countingArray);
+        countingArray.pop();
+        let numberOfEqual = 0;
+        countingArray.forEach((element) => {
+            if (element === "=") {
+                numberOfEqual++
+            }
+            return numberOfEqual;
+        })
 
-        return updateConsole('missing implementation of "="');
+        if (numberOfEqual > 1) {
+            const lastIndex = countingArray.lastIndexOf('=');
+            temoCountingArray = countingArray.slice(0, lastIndex);
+            const lastIndex2 = temoCountingArray.lastIndexOf('=');
+            countingArray = countingArray.slice(lastIndex2 + 1, lastIndex);
+        }
+
+        let sum = 0;
+        let sign = '';
+        countingArray.forEach((element) => {
+            if (isNaN(element)) {
+                sign = element;
+            } else {
+                sum = parseFloat(sum) + parseFloat(element);
+            }
+        })
+
+        return updateDisplay(sum);
     }
 }
 const countingValue = (pressedKey) => {
     updateConsole('');
-    console.log("----- Starting countingValue -----");
-    console.log("----- User typed: " + pressedKey);
 
-    const newValue = pressedKey;
-
-    const row = document.querySelectorAll('.displayRow');
-    const lastRow = row[row.length-1];
-    
-
+    const rows = document.querySelectorAll('.displayRow');
+    const lastRow = rows[rows.length - 1];
     const previousValue = lastRow.innerHTML;
     const previousValueArray = Array.from(lastRow.innerHTML);
     const lastCharPreviousValue = previousValueArray[previousValueArray.length - 1];
 
-    console.log("");
-    console.log("----- newValue: " + newValue);
-    console.log("----- previousValue: " + previousValue);
-    console.log("----- previousValueArray: " + previousValueArray);
-    console.log("----- lastCharPreviousValue: " + lastCharPreviousValue);
-    console.log("previousValueArray[0] " + previousValueArray[0]);
 
-
-    if ( pressedKey == 'CE' ) {
+    if (pressedKey == 'CE') {
         return updateDisplay('0');
     }
-    if ( pressedKey == 'C' ) {
+    if (pressedKey == 'C') {
         return updateConsole('missing implementation of "C"');
     }
-    if ( pressedKey == 'del' ) {
-        if ( previousValue == '0' | previousValue.length == 1 ) {
+    if (pressedKey == 'del') {
+        if (previousValue == '0' | previousValue.length == 1) {
             return updateDisplay('0');
-        } 
-        return updateDisplay( previousValue.slice(0, previousValue.length-1) );
+        }
+        return updateDisplay(previousValue.slice(0, previousValue.length - 1));
     }
 
-    if ( pressedKey == "+/-" ) {
+    if (pressedKey == "+/-") {
         if (previousValueArray[0] == '-') {
-            return updateDisplay(previousValue.slice(1,previousValue.length));
+            return updateDisplay(previousValue.slice(1, previousValue.length));
         }
         // array includes()
-        if ( previousValueArray[0] == '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' ) {
+        if (previousValueArray[0] == '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9') {
             return updateDisplay('-' + previousValue);
         }
-        return updateConsole("not implemented")  
+        return updateConsole("not implemented")
     }
-    if ( pressedKey == ',' ) {        
-        if ( lastCharPreviousValue == ',' ) {
+    if (pressedKey == '.') {
+        if (lastCharPreviousValue == '.') {
             return updateConsole("");
         }
-        if ( previousValue.includes(",") ) {
+        if (previousValue.includes(".")) {
             return updateConsole("");
         }
-        return updateDisplay( previousValue + newValue );
-        
+        if (lastCharPreviousValue == "") {
+            return updateDisplay("0" + pressedKey)
+        }
+        return updateDisplay(previousValue + pressedKey);
+
     }
-    if ( pressedKey == '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' ) {
-        if ( previousValue == '0' ) {
-            return updateDisplay(newValue); 
-        } 
-        return updateDisplay( previousValue + newValue );
+    if (pressedKey == '0' || '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9') {
+        if (previousValue == '0') {
+            return updateDisplay(pressedKey);
+        }
+        return updateDisplay(previousValue + pressedKey);
     }
-    if ( previousValue == '0' ) {
-        return updateDisplay(newValue); 
-    } 
+    if (previousValue == '0') {
+        return updateDisplay(pressedKey);
+    }
 }
-
-
 
 
 const updateDisplay = (value) => {
     if (value.length > 15) {
         return updateConsole("I can't handle more sorry");
-    } 
+    }
     const row = document.querySelectorAll('.displayRow');
-    const lastRow = row[row.length-1];
+    const lastRow = row[row.length - 1];
     lastRow.innerHTML = value;
-/*     console.log(" hej tu");
-    console.log(lastRow); */
 }
 const updateConsole = (value) => {
 
