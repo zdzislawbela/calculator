@@ -1,5 +1,6 @@
 import classes from './calculator.css';
-
+import title from './title/title.js';
+import display from './display/display.js';
 const createCalculator = () => {
     const calculator = document.createElement('div');
     calculator.setAttribute('class', 'calculator');    
@@ -9,8 +10,9 @@ const createCalculator = () => {
 
 export default () => {
     createCalculator();
- /*    displayTitle();
+    title();
     display();
-    keyPanel(); */
+
+ /*    keyPanel(); */
 
 }
