@@ -1,4 +1,4 @@
-import {setKeyClassInterval} from './functions.js';
+import {setKeyClassInterval} from './handleEvents.js';
 import {addKeyListeners, addMathKeyListeners} from './keyListeners.js';
 
 

@@ -1,4 +1,4 @@
-import {countingValue, handleMathKey} from './functions.js';
+import {countingValue, handleMathKey} from './handleEvents.js';
 function addKeyListeners() {
     const keys = document.querySelectorAll('.key');
 
