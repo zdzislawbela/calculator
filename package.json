@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/zdzislawbela/calculator.git",
-  "author": "zdzislaw <belazdzislaw@gmail.com>",
   "license": "MIT"
+},
+{
+  "scripts": {
+    "build": "parcel build index.html"
+  }
 }
