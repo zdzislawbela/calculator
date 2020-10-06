@@ -4,7 +4,7 @@ import {addKeyListeners, addMathKeyListeners} from './keyListeners.js';
 
 export default () => {
     calculator();
-/*     addKeyListeners();
+    addKeyListeners();
     addMathKeyListeners();
-    setInterval(setKeyClassInterval, 3000); */
+    setInterval(setKeyClassInterval, 3000);
 }

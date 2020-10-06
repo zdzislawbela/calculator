@@ -7,12 +7,12 @@ function handleMathKey(pressedKey) {
         const newDisplaySign = document.createElement('div');
         newDisplaySign.setAttribute('class', 'displaySign');
         newDisplaySign.innerHTML = sign;
-        document.querySelector('#display').appendChild(newDisplaySign);
+        document.querySelector('.display').appendChild(newDisplaySign);
 
         const row = document.querySelectorAll('.displaySign');
         const lastSignRow = row[row.length - 1];
         lastSignRow.innerHTML = sign;
-        document.querySelector('#display').appendChild(newDisplayRow);
+        document.querySelector('.display').appendChild(newDisplayRow);
     }
 
 
@@ -34,7 +34,7 @@ function handleMathKey(pressedKey) {
     }
     if (pressedKey == '=') {
         addNewRow(pressedKey);
-        const displayEntries = document.getElementById('display').querySelectorAll('div');
+        const displayEntries = document.querySelector('.display').querySelectorAll('div');
         let countingArray = [];
         displayEntries.forEach((entry) => {
 
@@ -138,7 +138,7 @@ const updateDisplay = (value) => {
 }
 const updateConsole = (value) => {
 
-    document.querySelector('#console').innerHTML = value;
+    document.querySelector('.console').innerHTML = value;
 }
 function setKeyClassInterval() {
     const keys = document.querySelectorAll('.key');
