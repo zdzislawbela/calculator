@@ -12,8 +12,6 @@ function handleMathKey(pressedKey) {
         const row = document.querySelectorAll('.displaySign');
         const lastSignRow = row[row.length - 1];
         lastSignRow.innerHTML = sign;
-
-
         document.querySelector('#display').appendChild(newDisplayRow);
     }
 
@@ -54,8 +52,8 @@ function handleMathKey(pressedKey) {
 
         if (numberOfEqual > 1) {
             const lastIndex = countingArray.lastIndexOf('=');
-            temoCountingArray = countingArray.slice(0, lastIndex);
-            const lastIndex2 = temoCountingArray.lastIndexOf('=');
+            const tempCountingArray = countingArray.slice(0, lastIndex);
+            const lastIndex2 = tempCountingArray.lastIndexOf('=');
             countingArray = countingArray.slice(lastIndex2 + 1, lastIndex);
         }
 
