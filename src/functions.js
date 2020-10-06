@@ -1,56 +1,5 @@
 
-const addKeyListiners = () => {
-    const keys = document.querySelectorAll('.key');
-
-    keys.forEach((key) => {
-        key.addEventListener('mouseover', () => {
-            key.classList = "mouseover"
-        })
-    })
-    keys.forEach((key) => {
-        key.addEventListener('mouseout', () => {
-            key.classList = "key"
-        })
-    })
-    keys.forEach((key) => {
-        key.addEventListener('mousedown', () => {
-            key.classList = "mousedown"
-        })
-    })
-    keys.forEach((key) => {
-        key.addEventListener('mouseup', () => {
-            key.classList = "mouseover"
-            countingValue(key.innerHTML)
-        })
-    })
-}
-
-const addMathKeyListiners = () => {
-    const keys = document.querySelectorAll('.mathKey');
-    keys.forEach((key) => {
-        key.addEventListener('mouseover', () => {
-            key.classList = "mouseover"
-        })
-    })
-    keys.forEach((key) => {
-        key.addEventListener('mouseout', () => {
-            key.classList = "key"
-        })
-    })
-    keys.forEach((key) => {
-        key.addEventListener('mousedown', () => {
-            key.classList = "mousedown"
-        })
-    })
-    keys.forEach((key) => {
-        key.addEventListener('mouseup', () => {
-            key.classList = "mouseover"
-            handleMathKey(key.innerHTML)
-        })
-    })
-}
-
-const handleMathKey = (pressedKey) => {
+function handleMathKey(pressedKey) {
 
     const addNewRow = (sign) => {
         const newDisplayRow = document.createElement('div');
@@ -123,7 +72,7 @@ const handleMathKey = (pressedKey) => {
         return updateDisplay(sum);
     }
 }
-const countingValue = (pressedKey) => {
+function countingValue(pressedKey) {
     updateConsole('');
 
     const rows = document.querySelectorAll('.displayRow');
@@ -193,15 +142,11 @@ const updateConsole = (value) => {
 
     document.querySelector('#console').innerHTML = value;
 }
-const setKeyClassInterval = () => {
+function setKeyClassInterval() {
     const keys = document.querySelectorAll('.key');
     keys.forEach((key) => {
         key.classList = "key"
     });
 }
-const loadApp = () => {
-    addKeyListiners();
-    addMathKeyListiners();
-    setInterval(setKeyClassInterval, 3000);
-}
-loadApp();
+
+export {countingValue, handleMathKey, setKeyClassInterval};
