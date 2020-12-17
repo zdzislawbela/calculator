@@ -1,7 +1,38 @@
 
-function handleMathKey(pressedKey) {
+const pressedButtons = [];
+const numbers = [];
+const operators = [];
 
-    const addNewRow = (sign) => {
+const storeNumber = () => {
+    console.log("Numbers: " + numbers);
+    const lastRow = document.querySelectorAll('.displayRow');
+    const lastRowValue = lastRow[lastRow.length - 1].innerHTML;
+    console.log("lastRowValue:" + lastRowValue);
+
+    //const lastRowVaule = "3.33+1.223";
+    /*     const lastIndexPlus = lastRowVaule.lastIndexOf('+');
+    const lastRowNumberAfterPlus = lastRowVaule.slice(lastIndexPlus+1);
+    console.log(lastRowNumberAfterPlus);
+
+    const tempCountingArray = countingArray.slice(0, lastIndex);
+    const lastIndex2 = tempCountingArray.lastIndexOf('=');
+    countingArray = countingArray.slice(lastIndex2 + 1, lastIndex); */
+
+    return numbers.push(lastRowValue);
+}
+
+const displayNumber = (number) => {
+    console.log("number: " + number)
+    const lastRow = document.querySelectorAll('.displayRow');
+    const lastRowValue = lastRow[lastRow.length - 1].innerHTML;
+    updateDisplay(lastRowValue + number);
+    return numbers.push(number);
+}
+
+//////////////////////////////////////////////
+function calculateOnEqualSign(pressedKey) {
+    // if no countingSign added do nothing
+/*     const addRow = (sign) => {
         const newDisplayRow = document.createElement('div');
         newDisplayRow.setAttribute('class', 'displayRow');
         const newDisplaySign = document.createElement('div');
@@ -13,63 +44,70 @@ function handleMathKey(pressedKey) {
         const lastSignRow = row[row.length - 1];
         lastSignRow.innerHTML = sign;
         document.querySelector('.display').appendChild(newDisplayRow);
+    } */
+    
+    const displayEntries = document.querySelector('.display').querySelectorAll('div');
+    let countingArray = [];
+    displayEntries.forEach((entry) => {
+
+        countingArray.push(entry.textContent);
+
+    })
+    countingArray.pop();
+    let numberOfEqual = 0;
+    countingArray.forEach((element) => {
+        if (element === "=") {
+            numberOfEqual++
+        }
+        return numberOfEqual;
+    })
+
+    if (numberOfEqual > 1) {
+        const lastIndex = countingArray.lastIndexOf('=');
+        const tempCountingArray = countingArray.slice(0, lastIndex);
+        const lastIndex2 = tempCountingArray.lastIndexOf('=');
+        countingArray = countingArray.slice(lastIndex2 + 1, lastIndex);
     }
 
+    let sum = 0;
+    let sign = '';
+    countingArray.forEach((element) => {
+        if (isNaN(element)) {
+            sign = element;
+        } else {
+            sum = parseFloat(sum) + parseFloat(element);
+        }
+    })
+}
+
+function handleMathKey(pressedKey) {
+    const rows = document.querySelectorAll('.displayRow');
+    const lastRow = rows[rows.length - 1];
+    const previousValue = lastRow.innerHTML;
 
     if (pressedKey == '+') {
-        addNewRow(pressedKey);
+        updateDisplay(previousValue + pressedKey);
         return updateConsole('missing implementation of "+"');
     }
     if (pressedKey == '-') {
-        addNewRow(pressedKey);
+        updateDisplay(previousValue + pressedKey);
         return updateConsole('missing implementation of "-"');
     }
     if (pressedKey == '/') {
-        addNewRow(pressedKey);
+        updateDisplay(previousValue + pressedKey);
         return updateConsole('missing implementation of "/"');
     }
     if (pressedKey == 'x') {
-        addNewRow(pressedKey);
+        updateDisplay(previousValue + pressedKey);
         return updateConsole('missing implementation of "x"');
     }
     if (pressedKey == '=') {
-        addNewRow(pressedKey);
-        const displayEntries = document.querySelector('.display').querySelectorAll('div');
-        let countingArray = [];
-        displayEntries.forEach((entry) => {
+        updateDisplay(previousValue + pressedKey);
+        calculateOnEqualSign(pressedKey);
 
-            countingArray.push(entry.textContent);
-
-        })
-        countingArray.pop();
-        let numberOfEqual = 0;
-        countingArray.forEach((element) => {
-            if (element === "=") {
-                numberOfEqual++
-            }
-            return numberOfEqual;
-        })
-
-        if (numberOfEqual > 1) {
-            const lastIndex = countingArray.lastIndexOf('=');
-            const tempCountingArray = countingArray.slice(0, lastIndex);
-            const lastIndex2 = tempCountingArray.lastIndexOf('=');
-            countingArray = countingArray.slice(lastIndex2 + 1, lastIndex);
-        }
-
-        let sum = 0;
-        let sign = '';
-        countingArray.forEach((element) => {
-            if (isNaN(element)) {
-                sign = element;
-            } else {
-                sum = parseFloat(sum) + parseFloat(element);
-            }
-        })
-
-        return updateDisplay(sum);
     }
 }
+
 function countingValue(pressedKey) {
     updateConsole('');
 
@@ -127,24 +165,4 @@ function countingValue(pressedKey) {
     }
 }
 
-
-const updateDisplay = (value) => {
-    if (value.length > 15) {
-        return updateConsole("I can't handle more sorry");
-    }
-    const row = document.querySelectorAll('.displayRow');
-    const lastRow = row[row.length - 1];
-    lastRow.innerHTML = value;
-}
-const updateConsole = (value) => {
-
-    document.querySelector('.console').innerHTML = value;
-}
-function setKeyClassInterval() {
-    const keys = document.querySelectorAll('.key');
-    keys.forEach((key) => {
-        key.classList = "key"
-    });
-}
-
-export {countingValue, handleMathKey, setKeyClassInterval};
+export {};

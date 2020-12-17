@@ -8,7 +8,8 @@
     padding: 0.5em;
     flex: 4;
 }
-.key, .mathKey {
+
+.button {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,6 +21,20 @@
     border-style: solid;
     border-color: black;
 }
+/* .operator
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(44, 158, 228, 0.726);
+    color: black;
+    padding: 0.5em;
+    flex: 1 1 80px;
+    border-style: solid;
+    border-color: black;
+} */
+
 .mouseover {
     display: flex;
     flex-direction: column;
