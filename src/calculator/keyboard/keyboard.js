@@ -14,12 +14,12 @@ const keyboard = () => {
         '+/-','0','.','=',
     ]
 
-    buttons.forEach((button)=>{
+    buttons.forEach((button) => {
         const keyButton = document.createElement('div');
         keyButton.setAttribute('class', ButtonClass);
         keyButton.innerHTML = button;
         document.querySelector('.keyboard').appendChild(keyButton);
-    })
+    });
 }
 
 export default () => {

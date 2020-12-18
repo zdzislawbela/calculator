@@ -5,61 +5,71 @@ const numbersModifiers = ['+/-','.'];
 const deletationSigns = ['CE','C','del'];
 const operators = ['/','x','-','+',];
 
-
-let currentDisplayValue = "";
-let savedDisplayValues = [];
-
+let currentValue = "0";
+let savedValues = [];
+let currentValueHasParenthesis = false;
 const catchButtonInnerHTML = (innerHTML) => {
-
-    if (numbers.includes(innerHTML)) {
-        userPressedNumber(innerHTML);
-    }
-
-    if (numbersModifiers.includes(innerHTML)) {
-        userPressedNumbersModifier(innerHTML);
-    }
-
-    if (deletationSigns.includes(innerHTML)) {
-        userPressedDeletetionSigns(innerHTML);
-    }
-
-    if (operators.includes(innerHTML)) {
-        userPressedOperator(innerHTML);
-    }
-
-    if (innerHTML === "=") {
-        userPressedEqualSign();
-    }
+    numbers.includes(innerHTML)             ? userPressedNumber(innerHTML): "";
+    numbersModifiers.includes(innerHTML)    ? userPressedNumbersModifier(innerHTML): "";
+    deletationSigns.includes(innerHTML)     ? userPressedDeletetionSigns(innerHTML): "";
+    operators.includes(innerHTML)           ? userPressedOperator(innerHTML): "";
+    innerHTML === "="                       ? userPressedEqualSign(): "";
 }
 
 const userPressedNumber = (number) => {
-    currentDisplayValue += number;
-    updateDisplay(currentDisplayValue);
+    if (currentValue === "0") {
+        currentValue = number;
+        return updateDisplay(savedValues, currentValue);
+    } 
+    if (currentValue.slice(currentValue.length-1,currentValue.length) === ")") {
+        currentValue = `${currentValue.slice(0,currentValue.length-1)}${number})`;
+    } else {
+        currentValue += number;
+    }
+    
+    
+    updateDisplay(savedValues, currentValue);
 }
 
 const userPressedNumbersModifier = (modifier) => {
+    
     if (modifier === '+/-') {
-        if (currentDisplayValue.slice(0,1) === '-') {
-            currentDisplayValue = currentDisplayValue.slice(1,currentDisplayValue.length)
+        if (currentValue.slice(0,1) === '-') {
+            currentValue = currentValue.slice(2,currentValue.length-1)
         } else {
-            currentDisplayValue = `-${currentDisplayValue}`;
+            currentValue = `-(${currentValue})`;
         }  
     }
     if (modifier == '.') {
-        if(!currentDisplayValue.includes('.')) {
-            currentDisplayValue = `${currentDisplayValue}.`
+        if(!currentValue.includes('.')) {
+            currentValue = `${currentValue}.`;
         }
+        if (currentValue.slice(currentValue.length-1,currentValue.length) === ")") {
+            if(!currentValue.includes('.')) {
+                currentValue = `${currentValue.slice(0,currentValue.length-1)}${modifier})`;
+            }
+            
+        }    
     }
-    updateDisplay(currentDisplayValue);
+    
+    updateDisplay(savedValues, currentValue);
 }
 
-const userPressedOperator = (operator) => {
-    savedDisplayValues.push(currentDisplayValue);
-    updateDisplay(`${currentDisplayValue}${operator}`)
-    currentDisplayValue = '';
 
-    //save number
-    //add sign to display
+const userPressedOperator = (operator) => {
+
+    if(
+        parseInt(currentValue.slice(currentValue.indexOf(".")+1, currentValue.length)) === 0
+        || currentValue.slice(currentValue.indexOf("."), currentValue.length) === ".") 
+    {
+        currentValue = currentValue.slice(0,currentValue.indexOf("."));
+    }
+    
+    savedValues.push(currentValue);
+    savedValues.push(operator);
+    updateDisplay(savedValues);
+    currentValue = '';
+
     //choose action
     if (operator == '/') {
         console.log(`userPressedOperator DIVISION: ${operator}`)
@@ -76,7 +86,19 @@ const userPressedOperator = (operator) => {
 }
 
 const userPressedDeletetionSigns = (deletetionSign) => {
-    console.log(`userPressedDeletetionSigns: ${deletetionSign}`)
+    if (deletetionSign == "del") {
+        currentValue = currentValue.slice(0,currentValue.length-1);
+        currentValue === "" ? currentValue = "0" : currentValue;
+    }
+    if (deletetionSign == 'C') {
+        //purge all displayRows if exists
+        currentValue = "0"
+    }
+    if (deletetionSign == 'CE') {
+        //purge last dislayRows
+        currentValue = "0"
+    }
+    updateDisplay(savedValues, currentValue);
 }
 
 const userPressedEqualSign = () => {

@@ -1,11 +1,19 @@
 
-const updateDisplay = (value) => {
-/*     if (value.length > 15) {
-        return updateConsole("I can't handle more sorry");
-    } */
-    const row = document.querySelectorAll('.displayRow');
-    const lastRow = row[row.length - 1];
-    lastRow.innerHTML = value;
+const updateDisplay = (savedDisplayValues, currentDisplayValue) => {
+
+    const displayRow = document.querySelectorAll('.displayRow');
+    const lastDisplayRow = displayRow[displayRow.length - 1];
+    let displayValues = ""
+
+    if (savedDisplayValues) {
+        savedDisplayValues.forEach((savedValue) => {
+            displayValues += ` ${savedValue} `;
+            console.log(savedValue);
+        });
+    }
+    currentDisplayValue ? displayValues += currentDisplayValue: "";
+    lastDisplayRow.innerHTML = displayValues;
+
 }
 
 /* const updateConsole = (value) => {
