@@ -1,9 +1,9 @@
-import {updateDisplay} from './displayEvents.js'
+import {updateDisplay} from './displayEvents.js';
 
 const numbers = ['0','1','2','3','4','5','6','7','8','9'];
 const numbersModifiers = ['+/-','.'];
 const deletationSigns = ['CE','C','del'];
-const operators = ['/','x','-','+',];
+const operators = ['/','x','-','+','='];
 
 let currentValue = "0";
 let savedValues = [];
@@ -13,21 +13,24 @@ const catchButtonInnerHTML = (innerHTML) => {
     numbersModifiers.includes(innerHTML)    ? userPressedNumbersModifier(innerHTML): "";
     deletationSigns.includes(innerHTML)     ? userPressedDeletetionSigns(innerHTML): "";
     operators.includes(innerHTML)           ? userPressedOperator(innerHTML): "";
-    innerHTML === "="                       ? userPressedEqualSign(): "";
 }
 
 const userPressedNumber = (number) => {
+    //check for zero
+    //check for 
     if (currentValue === "0") {
         currentValue = number;
         return updateDisplay(savedValues, currentValue);
     } 
+    if (currentValue === "-(0)") {
+        currentValue = `-(${number})`;
+        return updateDisplay(savedValues, currentValue);
+    }
     if (currentValue.slice(currentValue.length-1,currentValue.length) === ")") {
         currentValue = `${currentValue.slice(0,currentValue.length-1)}${number})`;
     } else {
         currentValue += number;
     }
-    
-    
     updateDisplay(savedValues, currentValue);
 }
 
@@ -35,26 +38,23 @@ const userPressedNumbersModifier = (modifier) => {
     
     if (modifier === '+/-') {
         if (currentValue.slice(0,1) === '-') {
-            currentValue = currentValue.slice(2,currentValue.length-1)
+            currentValue = currentValue.slice(2,currentValue.length-1);
         } else {
             currentValue = `-(${currentValue})`;
         }  
     }
     if (modifier == '.') {
-        if(!currentValue.includes('.')) {
-            currentValue = `${currentValue}.`;
-        }
         if (currentValue.slice(currentValue.length-1,currentValue.length) === ")") {
             if(!currentValue.includes('.')) {
                 currentValue = `${currentValue.slice(0,currentValue.length-1)}${modifier})`;
-            }
-            
-        }    
+            } 
+        }   
+        if(!currentValue.includes('.')) {
+            currentValue = `${currentValue}.`;
+        } 
     }
-    
     updateDisplay(savedValues, currentValue);
 }
-
 
 const userPressedOperator = (operator) => {
 
@@ -64,25 +64,11 @@ const userPressedOperator = (operator) => {
     {
         currentValue = currentValue.slice(0,currentValue.indexOf("."));
     }
-    
     savedValues.push(currentValue);
     savedValues.push(operator);
     updateDisplay(savedValues);
     currentValue = '';
-
-    //choose action
-    if (operator == '/') {
-        console.log(`userPressedOperator DIVISION: ${operator}`)
-    }
-    if (operator == 'x') {
-        console.log(`userPressedOperator MULTIPLICATION: ${operator}`)
-    }
-    if (operator == '-') {
-        console.log(`userPressedOperator MINUS: ${operator}`)
-    }
-    if (operator == '+') {
-        console.log(`userPressedOperator PLUS: ${operator}`)
-    }
+    operator === "=" ? userPressedEqualSign() : "";
 }
 
 const userPressedDeletetionSigns = (deletetionSign) => {
@@ -92,21 +78,46 @@ const userPressedDeletetionSigns = (deletetionSign) => {
     }
     if (deletetionSign == 'C') {
         //purge all displayRows if exists
-        currentValue = "0"
+        currentValue = "0";
     }
     if (deletetionSign == 'CE') {
         //purge last dislayRows
-        currentValue = "0"
+        currentValue = "0";
     }
     updateDisplay(savedValues, currentValue);
 }
 
 const userPressedEqualSign = () => {
-    //save number
-    //add sign to display
-    //add new line to display
-    //count equation
-    console.log(`userPressedEqualSign: =`)
+    let sum = "";
+    const savedCleanedValues = [];
+
+    console.log(`savedValues: ${savedValues}`);
+
+    savedValues.forEach((savedValue) => {
+        const savedCleanedValue = savedValue.replace(/[()]/g, '');
+        savedCleanedValues.push(savedCleanedValue);
+    })
+    console.log(`savedCleanedValues: ${savedCleanedValues}`);
+
+    const useOperator = (operator) => {
+        console.log(`userOperator: ${operator}`);
+    }
+
+    const storeNumber = (number) => {
+        console.log(`storeNumber: ${number}`);
+    }
+
+    savedCleanedValues.forEach((item) => {
+        isNaN(item) ? useOperator(item) : storeNumber(item);
+
+        sum = "in progress";
+        return sum;
+    })
+
+    const newDisplayRow = document.createElement('div');
+    newDisplayRow.setAttribute('class', 'displayRow');
+    newDisplayRow.innerHTML = sum;
+    document.querySelector('.display').appendChild(newDisplayRow);
 }
 
 export {catchButtonInnerHTML};

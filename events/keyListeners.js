@@ -1,6 +1,7 @@
 import {catchButtonInnerHTML} from './handlePressedButton.js';
 
 function buttonsListener() {
+
     const allButtons = document.querySelectorAll('.button');
 
     allButtons.forEach((button) => {
