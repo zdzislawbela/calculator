@@ -8,7 +8,7 @@ const updateDisplay = (savedDisplayValues, currentDisplayValue) => {
     if (savedDisplayValues) {
         savedDisplayValues.forEach((savedValue) => {
             displayValues += ` ${savedValue} `;
-            console.log(savedValue);
+            console.log(`updateDisplay: ${savedValue}`);
         });
     }
     currentDisplayValue ? displayValues += currentDisplayValue: "";

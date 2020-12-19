@@ -7,7 +7,7 @@ const operators = ['/','x','-','+','='];
 
 let currentValue = "0";
 let savedValues = [];
-let currentValueHasParenthesis = false;
+
 const catchButtonInnerHTML = (innerHTML) => {
     numbers.includes(innerHTML)             ? userPressedNumber(innerHTML): "";
     numbersModifiers.includes(innerHTML)    ? userPressedNumbersModifier(innerHTML): "";
@@ -91,29 +91,35 @@ const userPressedEqualSign = () => {
     let sum = "";
     const savedCleanedValues = [];
 
-    console.log(`savedValues: ${savedValues}`);
-
     savedValues.forEach((savedValue) => {
         const savedCleanedValue = savedValue.replace(/[()]/g, '');
         savedCleanedValues.push(savedCleanedValue);
     })
     console.log(`savedCleanedValues: ${savedCleanedValues}`);
 
-    const useOperator = (operator) => {
-        console.log(`userOperator: ${operator}`);
-    }
-
-    const storeNumber = (number) => {
-        console.log(`storeNumber: ${number}`);
-    }
-
-    savedCleanedValues.forEach((item) => {
-        isNaN(item) ? useOperator(item) : storeNumber(item);
-
-        sum = "in progress";
-        return sum;
+    const calculatedValues = savedCleanedValues.map((item) => {
+        return item;
     })
 
+    while(calculatedValues.length > 0) {
+        console.log(calculatedValues)
+        const numberIndex0 = parseInt(calculatedValues.shift());
+        console.log(`numberIndex0: ${numberIndex0}`)
+        const operatorIndex1 = calculatedValues.shift();   
+        console.log(`operatorIndex1: ${operatorIndex1}`)
+        const numberIndex2 = parseInt(calculatedValues.shift());
+        console.log(`numberIndex2: ${numberIndex2}`)
+/*         if (operatorIndex1 === 'x' || '/') {
+            const operatorIndex3 = calculatedValues.shift();
+            const numberIndex4 = parseInt(calculatedValues.shift());
+        } */
+
+        operatorIndex1 === "+" ? sum = numberIndex0 + numberIndex2: "";
+        operatorIndex1 === "-" ? sum = numberIndex0 - numberIndex2: "";
+    }
+
+    console.log(`calculatedValues: ${calculatedValues}`)
+    console.log(`sum: ${sum}`)
     const newDisplayRow = document.createElement('div');
     newDisplayRow.setAttribute('class', 'displayRow');
     newDisplayRow.innerHTML = sum;
