@@ -4,7 +4,7 @@ const keyboard = () => {
     const keyboard = document.createElement('div');
     keyboard.setAttribute('class', 'keyboard');
     document.querySelector('.calculator').appendChild(keyboard);
-    const ButtonClass = "button";
+    const buttonClass = "button";
     
     const buttons = [
         'CE','C','del','/',
