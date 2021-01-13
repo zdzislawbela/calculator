@@ -9,7 +9,6 @@ const storeNumber = () => {
     const lastRowValue = lastRow[lastRow.length - 1].innerHTML;
     console.log("lastRowValue:" + lastRowValue);
 
-    //const lastRowVaule = "3.33+1.223";
     /*     const lastIndexPlus = lastRowVaule.lastIndexOf('+');
     const lastRowNumberAfterPlus = lastRowVaule.slice(lastIndexPlus+1);
     console.log(lastRowNumberAfterPlus);
