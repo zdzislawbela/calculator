@@ -27,4 +27,4 @@ const setKeyClassInterval = () => {
     });
 } */
 
-export {updateDisplay};
+export { updateDisplay };
