@@ -1,4 +1,4 @@
-import {catchButtonInnerHTML} from './handlePressedButton.js';
+import {handleKeyboardButtons} from './handlePressedButton.js';
 
 function buttonsListener() {
 
@@ -16,7 +16,7 @@ function buttonsListener() {
         })
         button.addEventListener('mouseup', () => {
             button.classList = "mouseover"
-            catchButtonInnerHTML(button.innerHTML);
+            handleKeyboardButtons(button.innerHTML);
         })
     })
 }

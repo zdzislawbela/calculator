@@ -1,97 +1,116 @@
 import { updateDisplay } from './displayEvents.js';
 
-const numbers = ['0','1','2','3','4','5','6','7','8','9'];
-const numbersModifiers = ['+/-','.'];
-const deletationSigns = ['CE','C','del'];
-const operators = ['/','x','-','+','='];
+const POSSIBLE_DIGITS     = ['0','1','2','3','4','5','6','7','8','9'];
+const NUMBERS_MODIFIERS   = ['+/-','.'];
+const DELETATION_SIGNS    = ['CE','C','del'];
+const OPERATORS          = ['/','x','-','+','='];
 
-let currentValue = "0";
-let savedValues = [];
-
-const catchButtonInnerHTML = (innerHTML) => {
-    numbers.includes(innerHTML)             ? userPressedNumber(innerHTML): "";
-    numbersModifiers.includes(innerHTML)    ? userPressedNumbersModifier(innerHTML): "";
-    deletationSigns.includes(innerHTML)     ? userPressedDeletetionSigns(innerHTML): "";
-    operators.includes(innerHTML)           ? userPressedOperator(innerHTML): "";
+const CALCULATOR_STATE = {
+    currentValue: "0",
+    savedValues: []
 }
 
-const userPressedNumber = (number) => {
-    //check for zero
-    //check for 
-    if (currentValue === "0") {
-        currentValue = number;
-        return updateDisplay(savedValues, currentValue);
+const handleKeyboardButtons = (userInput) => {
+
+    const userChooseDigit     = POSSIBLE_DIGITS.includes(userInput);
+    const userChooseModifier  = NUMBERS_MODIFIERS.includes(userInput);
+    const userChooseSign      = DELETATION_SIGNS.includes(userInput);
+    const userChooseOperator  = OPERATORS.includes(userInput);
+
+    userChooseDigit     
+        ? handleDigits(userInput) : "";
+    userChooseModifier  
+        ? handleModifier(userInput) : "";
+    userChooseSign      
+        ? handleDeletetionSigns(userInput) : "";
+    userChooseOperator  
+        ? handleOperator(userInput) : "";
+
+}
+
+const handleDigits = (digit) => {
+    if (CALCULATOR_STATE.currentValue === "0") {
+        CALCULATOR_STATE.currentValue = digit;
+        return updateDisplay(CALCULATOR_STATE.savedValues, CALCULATOR_STATE.currentValue);
     } 
-    if (currentValue === "-(0)") {
-        currentValue = `-(${number})`;
-        return updateDisplay(savedValues, currentValue);
+    if (CALCULATOR_STATE.currentValue === "-(0)") {
+        CALCULATOR_STATE.currentValue = `-(${digit})`;
+        return updateDisplay(CALCULATOR_STATE.savedValues, CALCULATOR_STATE.currentValue);
     }
-    if (currentValue.slice(currentValue.length-1,currentValue.length) === ")") {
-        currentValue = `${currentValue.slice(0,currentValue.length-1)}${number})`;
+    if (CALCULATOR_STATE.currentValue.slice(CALCULATOR_STATE.currentValue.length-1,CALCULATOR_STATE.currentValue.length) === ")") {
+        CALCULATOR_STATE.currentValue = `${CALCULATOR_STATE.currentValue.slice(0,CALCULATOR_STATE.currentValue.length-1)}${digit})`;
     } else {
-        currentValue += number;
+        CALCULATOR_STATE.currentValue += digit;
     }
-    updateDisplay(savedValues, currentValue);
+    updateDisplay(CALCULATOR_STATE.savedValues, CALCULATOR_STATE.currentValue);
 }
 
-const userPressedNumbersModifier = (modifier) => {
+const handleModifier = (modifier) => {
+    const isModifierPlusMinus = modifier === '+/-';
+    const isModifierDot = modifier == '.';
+    const isMinusAtTheBegin = CALCULATOR_STATE.currentValue.slice(0,1) === '-';
+    const isParenthesesAtTheEnd = CALCULATOR_STATE.currentValue.slice(CALCULATOR_STATE.currentValue.length-1,CALCULATOR_STATE.currentValue.length) === ")";
+    const includesDot = CALCULATOR_STATE.currentValue.includes('.');
+    const removeMinusAtBegin = CALCULATOR_STATE.currentValue.slice(2,CALCULATOR_STATE.currentValue.length-1);
+    const addMinusAtBegin = `-(${CALCULATOR_STATE.currentValue})`;
+    const removeDotAndAddModifier = `${CALCULATOR_STATE.currentValue.slice(0,CALCULATOR_STATE.currentValue.length-1)}${modifier}`;
+    const addDotAtTheEnd = `${CALCULATOR_STATE.currentValue}.`;
+
+    isModifierPlusMinus && isMinusAtTheBegin 
+        ? CALCULATOR_STATE.currentValue = removeMinusAtBegin
+        : "";
+
+    isModifierPlusMinus && !isMinusAtTheBegin 
+        ? CALCULATOR_STATE.currentValue = addMinusAtBegin
+        : "";
+
+    isModifierDot && isParenthesesAtTheEnd && !includesDot
+        ? `${CALCULATOR_STATE.currentValue = removeDotAndAddModifier})`
+        : "";
+
+    isModifierDot && !includesDot
+        ? `${CALCULATOR_STATE.currentValue = addDotAtTheEnd})`
+        : "";
+
+    updateDisplay(CALCULATOR_STATE.savedValues, CALCULATOR_STATE.currentValue);
+}
+
+const handleOperator = (operator) => {
+    const isZeroAtTheEnd = parseInt(CALCULATOR_STATE.currentValue.slice(CALCULATOR_STATE.currentValue.indexOf(".")+1, CALCULATOR_STATE.currentValue.length)) === 0;
+    const isDotAtTheEnd = CALCULATOR_STATE.currentValue.slice(CALCULATOR_STATE.currentValue.indexOf("."), CALCULATOR_STATE.currentValue.length) === ".";
     
-    if (modifier === '+/-') {
-        if (currentValue.slice(0,1) === '-') {
-            currentValue = currentValue.slice(2,currentValue.length-1);
-        } else {
-            currentValue = `-(${currentValue})`;
-        }  
+    if( isZeroAtTheEnd || isDotAtTheEnd ) {
+        CALCULATOR_STATE.currentValue = CALCULATOR_STATE.currentValue.slice(0,CALCULATOR_STATE.currentValue.indexOf("."));
     }
-    if (modifier == '.') {
-        if (currentValue.slice(currentValue.length-1,currentValue.length) === ")") {
-            if(!currentValue.includes('.')) {
-                currentValue = `${currentValue.slice(0,currentValue.length-1)}${modifier})`;
-            } 
-        }   
-        if(!currentValue.includes('.')) {
-            currentValue = `${currentValue}.`;
-        } 
-    }
-    updateDisplay(savedValues, currentValue);
-}
 
-const userPressedOperator = (operator) => {
-
-    if(
-        parseInt(currentValue.slice(currentValue.indexOf(".")+1, currentValue.length)) === 0
-        || currentValue.slice(currentValue.indexOf("."), currentValue.length) === ".") 
-    {
-        currentValue = currentValue.slice(0,currentValue.indexOf("."));
-    }
-    savedValues.push(currentValue);
-    savedValues.push(operator);
-    updateDisplay(savedValues);
-    currentValue = '';
+    CALCULATOR_STATE.savedValues.push(CALCULATOR_STATE.currentValue);
+    CALCULATOR_STATE.savedValues.push(operator);
+    updateDisplay(CALCULATOR_STATE.savedValues);
+    CALCULATOR_STATE.currentValue = '';
     operator === "=" ? userPressedEqualSign() : "";
 }
 
-const userPressedDeletetionSigns = (deletetionSign) => {
+const handleDeletetionSigns = (deletetionSign) => {
     if (deletetionSign == "del") {
-        currentValue = currentValue.slice(0,currentValue.length-1);
-        currentValue === "" ? currentValue = "0" : currentValue;
+        CALCULATOR_STATE.currentValue = CALCULATOR_STATE.currentValue.slice(0,CALCULATOR_STATE.currentValue.length-1);
+        CALCULATOR_STATE.currentValue === "" ? CALCULATOR_STATE.currentValue = "0" : CALCULATOR_STATE.currentValue;
     }
     if (deletetionSign == 'C') {
         //purge all displayRows if exists
-        currentValue = "0";
+        CALCULATOR_STATE.currentValue = "0";
     }
     if (deletetionSign == 'CE') {
         //purge last dislayRows
-        currentValue = "0";
+        CALCULATOR_STATE.currentValue = "0";
     }
-    updateDisplay(savedValues, currentValue);
+    updateDisplay(CALCULATOR_STATE.savedValues, CALCULATOR_STATE.currentValue);
 }
 
 const userPressedEqualSign = () => {
     let sum = "";
     const savedCleanedValues = [];
 
-    savedValues.forEach((savedValue) => {
+    CALCULATOR_STATE.savedValues.forEach((savedValue) => {
         const savedCleanedValue = savedValue.replace(/[()]/g, '');
         savedCleanedValues.push(savedCleanedValue);
     })
@@ -102,28 +121,16 @@ const userPressedEqualSign = () => {
     })
 
     while(calculatedValues.length > 0) {
-        console.log(calculatedValues)
         const numberIndex0 = parseInt(calculatedValues.shift());
-        console.log(`numberIndex0: ${numberIndex0}`)
         const operatorIndex1 = calculatedValues.shift();   
-        console.log(`operatorIndex1: ${operatorIndex1}`)
         const numberIndex2 = parseInt(calculatedValues.shift());
-        console.log(`numberIndex2: ${numberIndex2}`)
-/*         if (operatorIndex1 === 'x' || '/') {
-            const operatorIndex3 = calculatedValues.shift();
-            const numberIndex4 = parseInt(calculatedValues.shift());
-        } */
-
         operatorIndex1 === "+" ? sum = numberIndex0 + numberIndex2: "";
         operatorIndex1 === "-" ? sum = numberIndex0 - numberIndex2: "";
     }
-
-    console.log(`calculatedValues: ${calculatedValues}`)
-    console.log(`sum: ${sum}`)
     const newDisplayRow = document.createElement('div');
     newDisplayRow.setAttribute('class', 'displayRow');
     newDisplayRow.innerHTML = sum;
     document.querySelector('.display').appendChild(newDisplayRow);
 }
 
-export {catchButtonInnerHTML};
+export {handleKeyboardButtons};

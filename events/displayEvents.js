@@ -8,23 +8,10 @@ const updateDisplay = (savedDisplayValues, currentDisplayValue) => {
     if (savedDisplayValues) {
         savedDisplayValues.forEach((savedValue) => {
             displayValues += ` ${savedValue} `;
-            console.log(`updateDisplay: ${savedValue}`);
         });
     }
     currentDisplayValue ? displayValues += currentDisplayValue: "";
     lastDisplayRow.innerHTML = displayValues;
 
 }
-
-/* const updateConsole = (value) => {
-    document.querySelector('.console').innerHTML = value;
-}
-
-const setKeyClassInterval = () => {
-    const keys = document.querySelectorAll('.key');
-    keys.forEach((key) => {
-        key.classList = "key"
-    });
-} */
-
 export { updateDisplay };

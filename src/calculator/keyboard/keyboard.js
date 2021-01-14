@@ -16,7 +16,7 @@ const keyboard = () => {
 
     buttons.forEach((button) => {
         const keyButton = document.createElement('div');
-        keyButton.setAttribute('class', ButtonClass);
+        keyButton.setAttribute('class', buttonClass);
         keyButton.innerHTML = button;
         document.querySelector('.keyboard').appendChild(keyButton);
     });
