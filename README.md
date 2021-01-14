@@ -1,11 +1,12 @@
 ﻿
-# Calculator
+### Calculator
 Calculator build from scratch with javascript for training.
 
 
-# Live demo
+
+### Live demo
 https://mystifying-pare-068c30.netlify.app
 
 
-# How to start 
+### How to start 
 $ parcel index.html
