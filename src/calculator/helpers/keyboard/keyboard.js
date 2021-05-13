@@ -1,10 +1,10 @@
 import classes from "./keyboard.css";
 
-const keyboard = () => {
+export const createKeyboard = () => {
   const keyboard = document.createElement("div");
+
   keyboard.setAttribute("class", "keyboard");
   document.querySelector(".calculator").appendChild(keyboard);
-  const buttonClass = "button";
 
   const buttons = [
     "CE",
@@ -31,12 +31,8 @@ const keyboard = () => {
 
   buttons.forEach((button) => {
     const keyButton = document.createElement("div");
-    keyButton.setAttribute("class", buttonClass);
+    keyButton.setAttribute("class", "button");
     keyButton.innerHTML = button;
     document.querySelector(".keyboard").appendChild(keyButton);
   });
-};
-
-export default () => {
-  keyboard();
 };

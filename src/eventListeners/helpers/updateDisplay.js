@@ -1,4 +1,4 @@
-const updateDisplay = (
+export const updateDisplay = (
   savedDisplayValues,
   currentDisplayValue,
   equal = false
@@ -22,4 +22,3 @@ const updateDisplay = (
     document.querySelector(".display").appendChild(newDisplayRow);
   }
 };
-export { updateDisplay };

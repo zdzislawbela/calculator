@@ -1,22 +1,15 @@
 import { handleKeyboardButtons } from "./handlePressedButton.js";
 
-function buttonsListener() {
+export const addButtonListeners = () => {
   const allButtons = document.querySelectorAll(".button");
 
   allButtons.forEach((button) => {
-    button.addEventListener("mouseover", () => {
-      button.classList = "mouseover";
-    });
-    button.addEventListener("mouseout", () => {
-      button.classList = "button";
-    });
     button.addEventListener("mousedown", () => {
-      button.classList = "mousedown";
+      button.classList = "down";
     });
     button.addEventListener("mouseup", () => {
-      button.classList = "mouseover";
+      button.classList = "button";
       handleKeyboardButtons(button.innerHTML);
     });
   });
-}
-export { buttonsListener };
+};

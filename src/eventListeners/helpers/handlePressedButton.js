@@ -1,4 +1,4 @@
-import { updateDisplay } from "./displayEvents.js";
+import { updateDisplay } from "./updateDisplay.js";
 
 const POSSIBLE_DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const NUMBERS_MODIFIERS = ["+/-", "."];
@@ -10,7 +10,7 @@ const CALCULATOR_STATE = {
   savedValues: []
 };
 
-const handleKeyboardButtons = (userInput) => {
+export const handleKeyboardButtons = (userInput) => {
   const userChooseDigit = POSSIBLE_DIGITS.includes(userInput);
   const userChooseModifier = NUMBERS_MODIFIERS.includes(userInput);
   const userChooseSign = DELETATION_SIGNS.includes(userInput);
@@ -175,5 +175,3 @@ const userPressedEqualSign = () => {
   updateDisplay(CALCULATOR_STATE.savedValues, sum, true);
   CALCULATOR_STATE.savedValues = [];
 };
-
-export { handleKeyboardButtons };
