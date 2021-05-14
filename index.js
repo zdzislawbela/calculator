@@ -1,3 +1,9 @@
-import main from "./src/main.js";
+import { createCalculator } from "./src/calculator/index.js";
+import { addListeners } from "./src/eventListeners/index.js";
 
-main();
+const startCalculator = () => {
+  createCalculator();
+  addListeners();
+};
+
+startCalculator();
